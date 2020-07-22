@@ -1,7 +1,9 @@
+import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { MemberListResolver } from './_resolver/member-list.resolver';
 import { UserService } from './_services/user.service';
 import { AlertifyService } from './_services/alertify.service';
 import { MemberDetailResolver } from './_resolver/member-detail.resolver';
+import { MemberEditResolver } from './_resolver/member-edit.resolver';
 import { BrowserModule, HammerGestureConfig } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -27,6 +29,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { appRoutes } from './routes';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './_guards/auth.guard';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -51,6 +54,7 @@ export class CustomHammerConfig extends HammerGestureConfig {
     MemberDetailComponent,
     ListsComponent,
     MessagesComponent,
+    MemberEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,6 +82,8 @@ export class CustomHammerConfig extends HammerGestureConfig {
     ErrorInterceptorProvider,
     MemberDetailResolver,
     MemberListResolver,
+    MemberEditResolver,
+    PreventUnsavedChanges,
   ],
 })
 export class AppModule {}
