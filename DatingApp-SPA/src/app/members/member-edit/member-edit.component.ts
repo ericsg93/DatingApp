@@ -12,10 +12,10 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./member-edit.component.css'],
 })
 export class MemberEditComponent implements OnInit {
+  user: User;
+  photoUrl: string;
   @ViewChild('editForm') editForm: NgForm;
   @HostListener('window:beforeunload', ['$event'])
-  user: User;
-
   unloadNotification($event: any) {
     if (this.editForm.dirty) {
       $event.returnValue = true;
@@ -33,6 +33,9 @@ export class MemberEditComponent implements OnInit {
     this.route.data.subscribe((res) => {
       this.user = res['user'];
     });
+    this.authService.currentPhotoUrl.subscribe((res) => {
+      this.photoUrl = res;
+    });
   }
 
   updateUser() {
@@ -47,5 +50,9 @@ export class MemberEditComponent implements OnInit {
           this.alertify.error(error);
         }
       );
+  }
+
+  updateMainPhoto(photoUrl) {
+    this.user.photoUrl = photoUrl;
   }
 }
