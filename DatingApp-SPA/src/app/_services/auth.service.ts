@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
@@ -19,7 +19,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  changeMemberPhoto(photoUrl: string) {
+  changeMemberPhoto(photoUrl: string): void {
     this.photoUrl.next(photoUrl);
   }
 
@@ -38,11 +38,11 @@ export class AuthService {
     );
   }
 
-  register(model: any) {
-    return this.http.post(this.baseUrl + 'register', model);
+  register(user: User) {
+    return this.http.post(this.baseUrl + 'register', user);
   }
 
-  loggedIn() {
+  loggedIn(): boolean {
     const token = localStorage.getItem('token');
     return !this.jwtHelper.isTokenExpired(token);
   }
