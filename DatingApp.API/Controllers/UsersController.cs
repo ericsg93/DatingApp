@@ -28,11 +28,27 @@ namespace DatingApp.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers([FromQuery] UserParams userParams)
         {
-            var users = await _repo.GetUsers();
+            //Agarra el user del token 
+            var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            //Devuelve la informacion del user logueado
+            var userFromRepo = await _repo.GetUser(currentUserId);
+            //El parametro de la clase UserParams es el userId
+            userParams.UserId = currentUserId;
+
+            //Si no se ha definido un genero como user parametro
+            if (string.IsNullOrEmpty(userParams.Gender))
+            {
+                userParams.Gender = userFromRepo.Gender == "male" ? "female" : "male";
+            }
+
+            var users = await _repo.GetUsers(userParams);
 
             var UsersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
+
+            //Por ser un API tenemos acceso al response y por ende a los headers entonces podemos agregar la paginacion
+            Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
 
             return Ok(UsersToReturn);
         }
