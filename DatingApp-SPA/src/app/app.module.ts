@@ -36,6 +36,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './_guards/auth.guard';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { ListsResolver } from './_resolver/lists.resolver';
 
 export function tokenGetter(): string {
   return localStorage.getItem('token');
@@ -98,6 +99,7 @@ export class CustomHammerConfig extends HammerGestureConfig {
     MemberListResolver,
     MemberEditResolver,
     PreventUnsavedChanges,
+    ListsResolver
   ],
 })
 export class AppModule {}

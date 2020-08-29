@@ -3,6 +3,7 @@ import { MemberEditResolver } from './_resolver/member-edit.resolver';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { MemberListResolver } from './_resolver/member-list.resolver';
 import { MemberDetailResolver } from './_resolver/member-detail.resolver';
+import { ListsResolver } from './_resolver/lists.resolver';
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { MemberListComponent } from './members/member-list/member-list.component';
@@ -35,7 +36,7 @@ export const appRoutes: Routes = [
         canDeactivate: [PreventUnsavedChanges],
       },
       { path: 'messages', component: MessagesComponent },
-      { path: 'lists', component: ListsComponent },
+      { path: 'lists', component: ListsComponent , resolve: {users: ListsResolver}}
     ],
   },
 
